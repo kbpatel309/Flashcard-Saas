@@ -19,10 +19,12 @@ Remember, the goal is to facilitate effective learning and retention of informat
 
 Return in the following JSON format
 {
-    "flashcards":{
-        "front": str,
-        "back": str
-    }
+    "flashcards":[
+        {
+            "front": str,
+            "back": str
+        }
+    ]
 }
 `
 
@@ -38,4 +40,8 @@ export async function POST(req){
         model: "gpt-4o",
         response_format: {type: 'json_object'}
     })
+
+    const flashcards = JSON.parse(completion.choices[0].message.content)
+
+    return NextResponse.json(flashcards.flashcard)
 }
